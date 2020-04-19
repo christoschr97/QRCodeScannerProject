@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ScannerQrApp</string>
+    <string name="food_name" />
+    <string name="food_price" />
+</resources>
