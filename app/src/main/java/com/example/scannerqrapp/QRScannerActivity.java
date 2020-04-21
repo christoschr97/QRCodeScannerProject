@@ -82,7 +82,10 @@ public class QRScannerActivity extends AppCompatActivity implements ZXingScanner
             menuActivity.putExtra("com.example.scannerqrapp.URL", qrurlModel.getUrl());
             startActivity(menuActivity);
         } else {
-            qrurlModel.setUrl("QR CODE NOT FOUND!");
+            Intent menuActivity = new Intent(getApplicationContext(), MenuActivity.class);
+            menuActivity.putExtra("com.example.scannerqrapp.URL", qrurlModel.getUrl());
+            menuActivity.putExtra("com.example.scannerqrapp.ERROR_MESSAGE", "THE QR CODE IS NOT A VALID CODE");
+            startActivity(menuActivity);
         }
 
 

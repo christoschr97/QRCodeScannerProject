@@ -13,11 +13,11 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-<!--        <ImageView-->
-<!--            android:id="@+id/image_view"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="200dp"-->
-<!--            android:src="@mipmap/ic_launcher"/>-->
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@mipmap/ic_launcher"/>
 
         <TextView
             android:id="@+id/text_view_id"

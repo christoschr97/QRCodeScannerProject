@@ -4,10 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import org.w3c.dom.Text;
 
@@ -38,11 +41,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         String name = currentItem.getName();
         int price = currentItem.getPrice();
         String id = currentItem.getId();
-        String url = currentItem.getUrl();
+        String url = "http://35.228.252.16:3000/uploads/" + currentItem.getUrl();
         holder.mTextViewPrice.setText(Integer.toString(price));
         holder.mTextViewName.setText(name);
         holder.mTextViewUrl.setText(url);
         holder.mTextViewId.setText(id);
+        Glide.with(mContext).load(url).into(holder.img_thumb);
 //        Picasso.with(mContext).load(imageUrl).fit().centerInside().into(holder.mImageView);
     }
 
@@ -58,6 +62,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         public TextView mTextViewPrice;
         public TextView mTextViewUrl;
         public TextView mTextViewId;
+        public ImageView img_thumb;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,6 +71,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             mTextViewPrice = itemView.findViewById(R.id.text_view_price);
             mTextViewUrl = itemView.findViewById(R.id.text_view_url);
             mTextViewId = itemView.findViewById(R.id.text_view_id);
+            img_thumb = itemView.findViewById(R.id.image_view);
         }
 
     }

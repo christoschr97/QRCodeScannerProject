@@ -31,7 +31,7 @@ public class MenuActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mProductAdapter;
     public ArrayList<Product> mProductList;
-
+    public String urlScanned;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +43,14 @@ public class MenuActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mProductList = new ArrayList<>();
-//        if(getIntent().hasExtra("com.example.scannerqrapp.URL")){
-//            TextView textView = (TextView) findViewById(R.id.tmpTextView);
-//            String text = getIntent().getExtras().getString("com.example.scannerqrapp.URL");
-//            textView.setText(text);
-//        }
-
-
-
-        new AsyncFetch().execute();
+        if(getIntent().hasExtra("com.example.scannerqrapp.ERROR_MESSAGE")){
+            TextView textView = (TextView) findViewById(R.id.text_view_id);
+            String text = getIntent().getExtras().getString("com.example.scannerqrapp.ERROR_MESSAGE");
+            textView.setText(text);
+        } else {
+            urlScanned = getIntent().getExtras().getString("com.example.scannerqrapp.URL");
+            new AsyncFetch().execute();
+        }
     }
 
     private class AsyncFetch extends AsyncTask<Void, Void, String> {
@@ -63,7 +62,6 @@ public class MenuActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-            final ProgressDialog progressDialog = ProgressDialog.show(MenuActivity.this, "Loading posts", "Please wait", false, false);
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -73,7 +71,9 @@ public class MenuActivity extends AppCompatActivity {
 
             try {
 
-                URL url = new URL("http://35.228.252.16:3000/products");
+//                URL url = new URL("http://35.228.252.16:3000/products");
+                URL url = new URL(urlScanned);
+
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
