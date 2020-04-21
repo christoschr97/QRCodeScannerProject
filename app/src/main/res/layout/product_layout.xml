@@ -14,18 +14,10 @@
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/image_view"
+            android:id="@+id/productImgView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:src="@mipmap/ic_launcher"/>
-
-        <TextView
-            android:id="@+id/text_view_id"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="id"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"/>
+            android:layout_height="122dp"
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/text_view_name"
@@ -36,20 +28,20 @@
             android:textSize="20sp"/>
 
         <TextView
-            android:id="@+id/text_view_url"
-            android:layout_height="wrap_content"
+            android:id="@+id/text_view_price"
             android:layout_width="wrap_content"
-            android:text="price"
+            android:layout_height="wrap_content"
+            android:text="$"
             android:textColor="@android:color/black"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/text_view_price"
-            android:layout_height="wrap_content"
+            android:id="@+id/text_view_clicked"
             android:layout_width="wrap_content"
-            android:text="url"
+            android:layout_height="wrap_content"
+            android:text="clicked"
             android:textColor="@android:color/black"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
     </LinearLayout>
 

@@ -6,11 +6,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -29,9 +33,11 @@ import java.util.Objects;
 public class MenuActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mProductAdapter;
+    private ProductAdapter mProductAdapter;
     public ArrayList<Product> mProductList;
     public String urlScanned;
+    public Button checkoutBtnbutton;
+    public static ArrayList<Product> tmpArrayList;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,24 @@ public class MenuActivity extends AppCompatActivity {
             urlScanned = getIntent().getExtras().getString("com.example.scannerqrapp.URL");
             new AsyncFetch().execute();
         }
+
+        //go to checkout scene button. Create the temporary ArrayList to store the order
+        checkoutBtnbutton = findViewById(R.id.checkoutBtnbutton);
+        checkoutBtnbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent orderCheckout = new Intent(MenuActivity.this, OrderCheckout.class);
+                tmpArrayList = new ArrayList<>();
+                for(int i = 0; i < mProductList.size(); i++) {
+                    if(mProductList.get(i).isChecked()) {
+                        tmpArrayList.add(mProductList.get(i));
+                    }
+                }
+                startActivity(orderCheckout);
+            }
+        });
+
+
     }
 
     private class AsyncFetch extends AsyncTask<Void, Void, String> {
@@ -71,13 +95,13 @@ public class MenuActivity extends AppCompatActivity {
 
             try {
 
-//                URL url = new URL("http://35.228.252.16:3000/products");
                 URL url = new URL(urlScanned);
 
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
                 int lengthOfFile = urlConnection.getContentLength();
+
                 // Read the input stream into a String
                 InputStream inputStream = urlConnection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
@@ -96,6 +120,7 @@ public class MenuActivity extends AppCompatActivity {
                 if (buffer.length() == 0) {
                     return null;
                 }
+
                 forecastJsonStr = buffer.toString();
                 Log.e("Json1", forecastJsonStr);
 
@@ -113,6 +138,7 @@ public class MenuActivity extends AppCompatActivity {
                 }
 
                 return forecastJsonStr;
+
             } catch (IOException e) {
                 Log.e("PlaceholderFragment", "Error ", e);
             } catch (JSONException e) {
@@ -136,6 +162,19 @@ public class MenuActivity extends AppCompatActivity {
             super.onPostExecute(s);
             mProductAdapter = new ProductAdapter(MenuActivity.this, mProductList);
             mRecyclerView.setAdapter(mProductAdapter);
+            mProductAdapter.setOnItemClickListener(new ProductAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    if(mProductList.get(position).isChecked()) {
+                        mProductList.get(position).setSelectCaption(" NOT SELECTED");
+                        mProductList.get(position).setChecked(false);
+                    } else {
+                        mProductList.get(position).setSelectCaption("SELECTED");
+                        mProductList.get(position).setChecked(true);
+                    }
+                    mProductAdapter.notifyDataSetChanged();
+                }
+            });
         }
     }
 

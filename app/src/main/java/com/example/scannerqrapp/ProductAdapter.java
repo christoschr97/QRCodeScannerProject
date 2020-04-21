@@ -9,19 +9,23 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
-//import com.squareup.picasso.Picasso;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     private Context mContext;
     private ArrayList<Product> productList;
+    private OnItemClickListener mListener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
 
     public ProductAdapter(Context mContext, ArrayList<Product> productList) {
         this.mContext = mContext;
@@ -42,12 +46,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         int price = currentItem.getPrice();
         String id = currentItem.getId();
         String url = "http://35.228.252.16:3000/uploads/" + currentItem.getUrl();
-        holder.mTextViewPrice.setText(Integer.toString(price));
+        String clickedCaption = currentItem.getSelectCaption(); //default = "NOT SELECTED"
+        holder.mTextViewPrice.setText("$" + price);
         holder.mTextViewName.setText(name);
-        holder.mTextViewUrl.setText(url);
-        holder.mTextViewId.setText(id);
+        holder.mTextViewClicked.setText(clickedCaption);
+//        holder.mTextViewId.setText(id);
         Glide.with(mContext).load(url).into(holder.img_thumb);
-//        Picasso.with(mContext).load(imageUrl).fit().centerInside().into(holder.mImageView);
     }
 
     @Override
@@ -60,18 +64,28 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 //        public ImageView mImageView;
         public TextView mTextViewName;
         public TextView mTextViewPrice;
-        public TextView mTextViewUrl;
+        public TextView mTextViewClicked;
         public TextView mTextViewId;
         public ImageView img_thumb;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
-//            mImageView = itemView.findViewById(R.id.image_view);
             mTextViewName = itemView.findViewById(R.id.text_view_name);
             mTextViewPrice = itemView.findViewById(R.id.text_view_price);
-            mTextViewUrl = itemView.findViewById(R.id.text_view_url);
-            mTextViewId = itemView.findViewById(R.id.text_view_id);
-            img_thumb = itemView.findViewById(R.id.image_view);
+            mTextViewClicked = itemView.findViewById(R.id.text_view_clicked);
+//            mTextViewId = itemView.findViewById(R.id.text_view_id);
+            img_thumb = itemView.findViewById(R.id.productImgView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mListener != null) {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            mListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
 
     }
