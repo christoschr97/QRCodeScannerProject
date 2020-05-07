@@ -38,6 +38,7 @@ public class OrderCheckout extends AppCompatActivity {
         mProductAdapter = new ProductAdapter(OrderCheckout.this, MenuActivity.tmpArrayList);
         mRecyclerView.setAdapter(mProductAdapter);
 
+        //
         editText = findViewById(R.id.editText);
         btnCheckOut = findViewById(R.id.btnCheckOut);
         btnCheckOut.setOnClickListener(new View.OnClickListener() {

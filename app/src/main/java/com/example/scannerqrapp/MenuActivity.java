@@ -73,8 +73,6 @@ public class MenuActivity extends AppCompatActivity {
                 startActivity(orderCheckout);
             }
         });
-
-
     }
 
     private class AsyncFetch extends AsyncTask<Void, Void, String> {
@@ -157,6 +155,7 @@ public class MenuActivity extends AppCompatActivity {
             }
             return forecastJsonStr;
         }
+
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);

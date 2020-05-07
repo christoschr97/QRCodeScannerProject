@@ -6,12 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import java.util.ArrayList;
-
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
@@ -50,7 +48,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.mTextViewPrice.setText("$" + price);
         holder.mTextViewName.setText(name);
         holder.mTextViewClicked.setText(clickedCaption);
-//        holder.mTextViewId.setText(id);
         Glide.with(mContext).load(url).into(holder.img_thumb);
     }
 
@@ -60,7 +57,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     public class ProductViewHolder extends RecyclerView.ViewHolder {
-
 //        public ImageView mImageView;
         public TextView mTextViewName;
         public TextView mTextViewPrice;
@@ -87,7 +83,5 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 }
             });
         }
-
     }
-
 }
